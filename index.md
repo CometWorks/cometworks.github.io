@@ -1,4 +1,4 @@
-### Solution 
+### Solutions
 
 - [Quasar](https://github.com/CometWorks/quasar) - Supervisor control plane with a Web UI to run Magnetar servers (Space Engineers Dedicated Servers with plugin support)
 - [Pulsar](https://github.com/SpaceGT/Pulsar) - Plugin loader for the Space Engineers game (client) 
