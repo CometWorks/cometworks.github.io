@@ -1,3 +1,5 @@
+# [Cometworks](https://github.com/CometWorks)
+
 ### Solutions
 
 - [Quasar](https://github.com/CometWorks/quasar) - Supervisor control plane with a Web UI to run Magnetar servers (Space Engineers Dedicated Servers with plugin support)
