@@ -1,0 +1,14 @@
+{% assign flavors = include.hub.flavors.size | minus: 1 %}
+<h3>{{ include.title }} <small class="plugin-count">{{ include.entries.size }}</small></h3>
+<table class="plugin-table">
+<thead><tr><th>Name</th><th>Author</th>{% if flavors > 0 %}<th>Flavors</th>{% endif %}<th>Platforms</th><th>Links</th></tr></thead>
+<tbody>
+{% for e in include.entries %}<tr data-envs="{{ e.environments }}"{% if e.unavailable %} class="unavailable" data-reason="{{ e.unavailable | escape }}"{% endif %}>
+<td data-label="Name"><strong>{{ e.name | escape }}</strong>{% if e.tooltip != "" %}<div class="plugin-tooltip">{{ e.tooltip | escape }}</div>{% endif %}{% if e.description != "" %}<details><summary>Description</summary><div class="plugin-description">{{ e.description | escape }}</div></details>{% endif %}<div class="plugin-reason">{{ e.unavailable | escape }}</div></td>
+<td data-label="Author">{{ e.author | escape }}</td>
+{% if flavors > 0 %}<td data-label="Flavors">{{ e.flavors | join: ", " }}</td>{% endif %}
+<td data-label="Platforms">{{ e.platforms | join: ", " }}</td>
+<td data-label="Links"><a href="{{ e.source | escape }}">{% if e.kind == "mod" %}Workshop{% else %}Source{% endif %}</a> · <a href="{{ e.hub_entry | escape }}">Hub entry</a></td>
+</tr>
+{% endfor %}</tbody>
+</table>

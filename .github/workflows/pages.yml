@@ -1,0 +1,57 @@
+# Builds the site with Jekyll and deploys it to GitHub Pages. The daily run refreshes
+# the plugin list pages from the plugin hubs. Needs Settings > Pages > Source set to
+# "GitHub Actions".
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7
+        with:
+          repository: StarCpt/PluginHub
+          path: _hubs/se1
+      - uses: actions/checkout@v7
+        with:
+          repository: StarCpt/PluginHub-SE2
+          path: _hubs/se2
+      - uses: actions/checkout@v7
+        with:
+          repository: CometWorks/magnetar-hub
+          path: _hubs/magnetar
+      - uses: actions/checkout@v7
+        with:
+          repository: CometWorks/quasar-hub
+          path: _hubs/quasar
+      - name: Plugin list data
+        run: python3 _tools/build_plugin_list.py _hubs _data/plugins.json
+      - uses: actions/configure-pages@v6
+      - uses: actions/jekyll-build-pages@v1
+      - uses: actions/upload-pages-artifact@v5
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

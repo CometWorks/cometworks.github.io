@@ -1,0 +1,24 @@
+.plugin-filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 16px; }
+.plugin-filters input[type="search"] { flex: 1 1 200px; padding: 5px 8px; }
+.plugin-filters select { padding: 4px; }
+.plugin-count { color: #57606a; font-weight: normal; }
+.markdown-body table.plugin-table { display: table; width: 100%; }
+.plugin-table td { vertical-align: top; }
+.plugin-tooltip { color: #57606a; }
+.plugin-table details summary { cursor: pointer; color: #0969da; }
+.plugin-description { white-space: pre-line; }
+.plugin-reason { color: #bc4c00; }
+.plugin-reason:empty { display: none; }
+.plugin-table tr.unavailable > td { opacity: 0.55; }
+.plugin-table tr.unavailable .plugin-reason { opacity: 1; }
+
+@media (max-width: 700px) {
+  .plugin-table thead { display: none; }
+  .markdown-body table.plugin-table,
+  .plugin-table tbody,
+  .plugin-table tr,
+  .plugin-table td { display: block; width: 100%; }
+  .markdown-body .plugin-table tr { border: 1px solid #d0d7de; border-radius: 6px; margin-bottom: 12px; padding: 8px; }
+  .markdown-body .plugin-table td { border: none; padding: 2px 0; }
+  .plugin-table td:not(:first-child)::before { content: attr(data-label) ": "; font-weight: 600; }
+}
