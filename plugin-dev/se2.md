@@ -230,8 +230,12 @@ What reviewers look for:
 - No changes to installed game files; settings stay in the plugin's own data folder.
 - Patches that coexist with other plugins and don't cost noticeable performance.
 
-The hub has a `SampleMod.xml` for client-side Workshop mods but no mods listed yet; ask on the Discord before
-you register one. Give players a way to report bugs, and answer them. If you stop maintaining the plugin, look
+A client-side Workshop mod (one that needs nothing on a server) can be listed as well, the same way as on the
+SE1 hub, though none is listed yet: copy `SampleMod.xml` into `Plugins/Mods/`, put the Workshop ID into `Id`,
+fill in the rest, test it through a local hub and open a pull request. The game keeps the mod up to date, so
+the file needs no updates afterwards.
+
+Give players a way to report bugs, and answer them. If you stop maintaining the plugin, look
 for a new maintainer, say so in the README, ask for the hub entry to be hidden and keep the repository public.
 
 ## Develop with AI coding agents {#ai-agents}
@@ -249,7 +253,8 @@ Coding agents such as Claude Code work well on plugins when they have the right 
 - **Give it the evidence.** Point it at `Modern/info.log` and the game's log when something fails.
 - **Test in the game yourself.** Do the Release test from [Test your plugin locally](#testing) before
   every release.
-- **Review before you submit.** Run the `se2-dev-plugin-review` skill on your own repository.
+- **Review before you submit.** Ask the agent to check your code against the review policy of the
+  `se2-dev-plugin-review` skill, the one hub reviewers use, before you open the hub pull request.
 - **Don't publish decompiled code**, not even in an issue or a pull request.
 
 ## FAQ {#faq}
