@@ -329,8 +329,8 @@ Coding agents such as Claude Code work well on plugins when they have the right 
   fails; it can usually find the cause.
 - **Test in the game yourself.** The agent can't see the game. Do the Release test from
   [Test your plugin locally](#testing) before every release.
-- **Review before you submit.** Run the `se-dev-plugin-review` skill on your own repository to catch what
-  the hub reviewers would flag.
+- **Review before you submit.** Ask the agent to check your code against the review policy of the
+  `se-dev-plugin-review` skill, the one hub reviewers use, before you open the hub pull request.
 - **Keep game updates cheap.** After an update, ask the agent to compare the old and new game code of the
   methods you patch.
 - **Don't publish decompiled code**, not even in an issue or a pull request.
