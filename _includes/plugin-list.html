@@ -1,0 +1,21 @@
+{% assign hub = site.data.plugins.hubs | where: "key", include.hub | first %}
+<p class="plugin-nav">
+{% for h in site.data.plugins.hubs %}{% if h.key == hub.key %}<strong>{{ h.title }}</strong>{% else %}<a href="{{ '/plugins/' | append: h.key | append: '/' | relative_url }}">{{ h.title }}</a>{% endif %}{% unless forloop.last %} · {% endunless %}{% endfor %}
+</p>
+
+<h2>{{ hub.title }} plugins</h2>
+<p>Everything listed in the <a href="https://github.com/{{ hub.repo }}">{{ hub.loader }} hub</a>, read on {{ site.data.plugins.generated }} (commit <a href="https://github.com/{{ hub.repo }}/commit/{{ hub.commit }}">{{ hub.commit | slice: 0, 7 }}</a>). Pick your setup to see what works there.</p>
+
+<div class="plugin-list" data-loader="{{ hub.loader }}">
+<form class="plugin-filters" hidden>
+<input type="search" name="q" placeholder="Search" aria-label="Search">
+{% if hub.flavors.size > 1 %}<select name="flavor" aria-label="{{ hub.loader }} flavor"><option value="">Any {{ hub.loader }} flavor</option>{% for f in hub.flavors %}<option>{{ f }}</option>{% endfor %}</select>{% endif %}
+<select name="platform" aria-label="Platform"><option value="">Any platform</option>{% for p in hub.platforms %}<option>{{ p }}</option>{% endfor %}</select>
+<label><input type="checkbox" name="hide"> Hide unavailable</label>
+</form>
+{% include plugin-table.html entries=hub.plugins title="Plugins" hub=hub %}
+{% if hub.mods.size > 0 %}{% include plugin-table.html entries=hub.mods title="Mods" hub=hub %}{% endif %}
+</div>
+
+<link rel="stylesheet" href="{{ '/assets/plugins/plugins.css' | relative_url }}">
+<script src="{{ '/assets/plugins/plugins.js' | relative_url }}" defer></script>

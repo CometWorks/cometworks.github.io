@@ -1,0 +1,11 @@
+---
+layout: default
+title: Plugins
+permalink: /plugins/
+---
+<h2>Plugins</h2>
+<p>Plugins and mods registered in the hubs that the loaders install them from. Pick a list:</p>
+<ul>
+{% for h in site.data.plugins.hubs %}<li><a href="{{ '/plugins/' | append: h.key | append: '/' | relative_url }}">{{ h.title }}</a>: {{ h.plugins.size }} plugin{% if h.plugins.size != 1 %}s{% endif %}{% if h.mods.size > 0 %}, {{ h.mods.size }} mod{% if h.mods.size != 1 %}s{% endif %}{% endif %} for {{ h.loader }}</li>
+{% endfor %}</ul>
+<p>Updated daily, last on {{ site.data.plugins.generated }}.</p>
