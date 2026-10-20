@@ -18,4 +18,9 @@ title: Space Engineers tools
     <p class="data-stamp">Refreshed daily · {{ site.data.plugins.generated }}</p>
   </section>
   <section class="section runtime-section" aria-labelledby="support-title"><div class="section-heading"><h2 id="support-title">OS &amp; runtime support</h2></div><dl class="platform-list"><div><dt>Linux</dt><dd>.NET 10</dd></div><div><dt>Windows</dt><dd>.NET 10<br>.NET Framework 4.8</dd></div></dl><p class="data-stamp">Check the catalogue for each plugin’s supported platform and loader flavor.</p></section>
+  <section class="section" aria-labelledby="developers-title">
+    <div class="section-heading"><h2 id="developers-title">Developers</h2><a href="{{ '/plugin-dev/' | relative_url }}">Plugin developer guide <span aria-hidden="true">→</span></a></div>
+    <div class="quick-hubs"><a href="{{ '/plugin-dev/se1/' | relative_url }}"><strong>Space Engineers 1 <span aria-hidden="true">→</span></strong><span>Pulsar, Magnetar and Quasar plugins</span></a><a href="{{ '/plugin-dev/se2/' | relative_url }}"><strong>Space Engineers 2 <span aria-hidden="true">→</span></strong><span>Pulsar client plugins</span></a></div>
+    <p class="data-stamp">How to write, test and publish plugins for Space Engineers 1 and 2.</p>
+  </section>
 </div>
