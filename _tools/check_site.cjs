@@ -50,7 +50,7 @@ const shots = process.env.SCREENSHOTS;
     assert.equal(await theme(), 'light', 'Theme radios work with the keyboard');
     const focus = await page.locator('input[value=light] + span').evaluate(el => getComputedStyle(el).outlineStyle);
     assert.equal(focus, 'solid', 'Keyboard focus is visible');
-    const paths = ['/', '/plugins/', ...data.hubs.map(h => `/plugins/${h.key}/`)];
+    const paths = ['/', '/plugins/', ...data.hubs.map(h => `/plugins/${h.key}/`), '/plugin-dev/', '/plugin-dev/se1/', '/plugin-dev/se2/'];
     for (const width of [320, 390, 768, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
       for (const mode of ['Light', 'Dark']) {
@@ -148,14 +148,14 @@ const shots = process.env.SCREENSHOTS;
         await choose(mode);
         for (const [label, width, height] of [['desktop',1440,1100],['mobile',390,844]]) {
           await page.setViewportSize({width,height});
-          for (const [name, pathname] of [['home','/'],['catalogue','/plugins/'],['se1','/plugins/se1/']]) {
+          for (const [name, pathname] of [['home','/'],['catalogue','/plugins/'],['se1','/plugins/se1/'],['guide','/plugin-dev/se1/']]) {
             await page.goto(base+pathname);
-            await page.screenshot({path:path.join(shots,`${name}-${label}-${mode.toLowerCase()}.png`),fullPage:name!=='se1'});
+            await page.screenshot({path:path.join(shots,`${name}-${label}-${mode.toLowerCase()}.png`),fullPage:name==='home'||name==='catalogue'});
           }
         }
       }
     }
     assert.deepEqual(errors, [], 'No browser errors or failed site resources');
-    console.log(`PASS: theme pre-paint/OS/persistence/keyboard/storage, 48 responsive page/theme checks, ${data.hubs.length} real hub catalogues, search/setup/hide/reset/order/details/links, and no-JS fallback.`);
+    console.log(`PASS: theme pre-paint/OS/persistence/keyboard/storage, ${paths.length * 8} responsive page/theme checks, ${data.hubs.length} real hub catalogues, search/setup/hide/reset/order/details/links, and no-JS fallback.`);
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

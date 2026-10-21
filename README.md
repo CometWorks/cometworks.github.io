@@ -29,6 +29,10 @@ The homepage and all catalogue pages share `_layouts/default.html` and
 `assets/fonts/`). `assets/brand/cometworks-mark.png` is the unmodified simplified
 CometWorks logo used by server-list, also used as the favicon.
 
+The plugin developer guide (`plugin-dev/`) is Markdown with `layout: guide`
+(`_layouts/guide.html`), which wraps the default layout's content in
+`<article class="guide">` for the prose, code and table styles in `site.css`.
+
 System is the default theme. `assets/theme.js` runs before the stylesheet and
 reads `cometworks-theme` from localStorage. Explicit Light/Dark choices persist;
 System follows OS changes. Without JavaScript, CSS follows the OS and the full
