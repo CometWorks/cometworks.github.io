@@ -6,6 +6,7 @@ for (const list of document.querySelectorAll(".plugin-list")) {
   const tables = [...list.querySelectorAll(".plugin-table")].map((table) => ({
     tbody: table.tBodies[0],
     count: table.previousElementSibling.querySelector(".plugin-count"),
+    empty: table.nextElementSibling,
     rows: [...table.tBodies[0].rows].map((row) => ({
       row,
       text: row.textContent.toLowerCase(),
@@ -34,6 +35,7 @@ for (const list of document.querySelectorAll(".plugin-list")) {
         (reason ? misfits : fits).push(entry.row);
       }
       table.tbody.append(...fits, ...misfits);
+      table.empty.hidden = shown !== 0;
       table.count.textContent = shown === table.rows.length ? shown : `${shown} of ${table.rows.length}`;
     }
   };
@@ -51,6 +53,9 @@ for (const list of document.querySelectorAll(".plugin-list")) {
   };
 
   form.addEventListener("input", update);
+  // The reset event fires before the browser restores the controls.
+  form.addEventListener("reset", () => setTimeout(update, 0));
   form.addEventListener("submit", (event) => event.preventDefault());
   form.hidden = false;
+  update();
 }

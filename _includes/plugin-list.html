@@ -1,21 +1,19 @@
 {% assign hub = site.data.plugins.hubs | where: "key", include.hub | first %}
-<p class="plugin-nav">
-{% for h in site.data.plugins.hubs %}{% if h.key == hub.key %}<strong>{{ h.title }}</strong>{% else %}<a href="{{ '/plugins/' | append: h.key | append: '/' | relative_url }}">{{ h.title }}</a>{% endif %}{% unless forloop.last %} · {% endunless %}{% endfor %}
-</p>
-
-<h2>{{ hub.title }} plugins</h2>
-<p>Everything listed in the <a href="https://github.com/{{ hub.repo }}">{{ hub.loader }} hub</a>, read on {{ site.data.plugins.generated }} (commit <a href="https://github.com/{{ hub.repo }}/commit/{{ hub.commit }}">{{ hub.commit | slice: 0, 7 }}</a>). Pick your setup to see what works there.</p>
-
+<div class="catalogue-breadcrumb"><a href="{{ '/plugins/' | relative_url }}">Plugin catalogue</a><span aria-hidden="true">/</span><span>{{ hub.title }}</span></div>
+<nav class="hub-nav" aria-label="Plugin hubs">
+{% for h in site.data.plugins.hubs %}<a href="{{ '/plugins/' | append: h.key | append: '/' | relative_url }}"{% if h.key == hub.key %} aria-current="page"{% endif %}>{{ h.title }}</a>{% endfor %}
+</nav>
+<header class="list-heading"><h1>{{ hub.title }} plugins</h1><p>Plugins{% if hub.mods.size > 0 %} and mods{% endif %} registered in the <a href="https://github.com/{{ hub.repo }}">{{ hub.loader }} hub</a>.</p><p class="data-stamp">Refreshed {{ site.data.plugins.generated }} <span aria-hidden="true">·</span> <a href="https://github.com/{{ hub.repo }}/commit/{{ hub.commit }}">{{ hub.commit | slice: 0, 7 }}</a></p></header>
 <div class="plugin-list" data-loader="{{ hub.loader }}">
 <form class="plugin-filters" hidden>
-<input type="search" name="q" placeholder="Search" aria-label="Search">
-{% if hub.flavors.size > 1 %}<select name="flavor" aria-label="{{ hub.loader }} flavor"><option value="">Any {{ hub.loader }} flavor</option>{% for f in hub.flavors %}<option>{{ f }}</option>{% endfor %}</select>{% endif %}
-<select name="platform" aria-label="Platform"><option value="">Any platform</option>{% for p in hub.platforms %}<option>{{ p }}</option>{% endfor %}</select>
-<label><input type="checkbox" name="hide"> Hide unavailable</label>
+  <label class="search-field">Search plugins<input type="search" name="q" placeholder="Name, author or description"></label>
+  {% if hub.flavors.size > 1 %}<label>{{ hub.loader }} flavor<select name="flavor"><option value="">Any flavor</option>{% for f in hub.flavors %}<option>{{ f }}</option>{% endfor %}</select></label>{% endif %}
+  <label>Platform<select name="platform"><option value="">Any platform</option>{% for p in hub.platforms %}<option>{{ p }}</option>{% endfor %}</select></label>
+  <label class="checkbox-field"><input type="checkbox" name="hide"> Hide unavailable</label>
+  <button type="reset" class="reset-filters">Reset filters</button>
 </form>
+<p class="filter-note">Listed A–Z, with compatible entries first. Unavailable entries include a reason.</p>
 {% include plugin-table.html entries=hub.plugins title="Plugins" hub=hub %}
 {% if hub.mods.size > 0 %}{% include plugin-table.html entries=hub.mods title="Mods" hub=hub %}{% endif %}
 </div>
-
-<link rel="stylesheet" href="{{ '/assets/plugins/plugins.css' | relative_url }}">
 <script src="{{ '/assets/plugins/plugins.js' | relative_url }}" defer></script>

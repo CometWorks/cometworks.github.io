@@ -1,0 +1,7 @@
+title: CometWorks
+description: Open source tools, plugins and server management for Space Engineers.
+url: https://cometworks.github.io
+baseurl: ""
+exclude:
+  - README.md
+  - LICENSE

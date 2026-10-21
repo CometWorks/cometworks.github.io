@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>{% if page.title %}{{ page.title | escape }} · {% endif %}CometWorks</title>
+  <meta name="description" content="{{ page.description | default: site.description | escape }}">
+  <script src="{{ '/assets/theme.js' | relative_url }}"></script>
+  <link rel="icon" type="image/png" href="{{ '/assets/brand/cometworks-mark.png' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/site.css' | relative_url }}">
+  {% if page.url contains '/plugins/' %}<link rel="stylesheet" href="{{ '/assets/plugins/plugins.css' | relative_url }}">{% endif %}
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header shell">
+    <a class="brand" href="{{ '/' | relative_url }}" aria-label="CometWorks home">
+      <span class="brand-mark" aria-hidden="true"><img src="{{ '/assets/brand/cometworks-mark.png' | relative_url }}" alt="" width="52" height="52"></span>
+      <span>CometWorks<small>SPACE ENGINEERS</small></span>
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="{{ '/' | relative_url }}"{% if page.url == '/' %} aria-current="page"{% endif %}>Overview</a>
+      <a href="{{ '/plugins/' | relative_url }}"{% if page.url contains '/plugins/' %} aria-current="page"{% endif %}>Plugins</a>
+      <a href="https://github.com/CometWorks">GitHub <span aria-hidden="true">↗</span></a>
+    </nav>
+    <fieldset class="theme-switch" hidden>
+      <legend class="sr-only">Color theme</legend>
+      <label><input type="radio" name="theme" value="system" checked><span>System</span></label>
+      <label><input type="radio" name="theme" value="light"><span>Light</span></label>
+      <label><input type="radio" name="theme" value="dark"><span>Dark</span></label>
+    </fieldset>
+  </header>
+  <main id="main" class="shell" tabindex="-1">{{ content }}</main>
+  <footer class="site-footer shell">
+    <div><strong>CometWorks</strong><p>Open source. Built for Space Engineers.</p></div>
+    <nav aria-label="Footer navigation"><a href="{{ '/plugins/' | relative_url }}">Plugin catalogue</a><a href="https://github.com/CometWorks">GitHub <span aria-hidden="true">↗</span></a><a href="https://github.com/CometWorks/cometworks.github.io">Website source <span aria-hidden="true">↗</span></a></nav>
+  </footer>
+</body>
+</html>

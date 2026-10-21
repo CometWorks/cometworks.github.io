@@ -20,4 +20,44 @@ JEKYLL_GITHUB_TOKEN=$(gh auth token) docker run --rm -u $(id -u):$(id -g) -v "$P
   -c 'cd "$BUNDLE_APP_CONFIG" && bin/github-pages build --source /src --destination /src/_site'
 ```
 
-The token only lets Jekyll read the repo's public metadata; without it the links get a wrong base URL.
+The token is optional for public metadata. `_config.yml` sets the canonical URL explicitly.
+
+## Website design and theme
+
+The homepage and all catalogue pages share `_layouts/default.html` and
+`assets/site.css`, with self-hosted DM Sans and Manrope (licenses in
+`assets/fonts/`). `assets/brand/cometworks-mark.png` is the unmodified simplified
+CometWorks logo used by server-list, also used as the favicon.
+
+System is the default theme. `assets/theme.js` runs before the stylesheet and
+reads `cometworks-theme` from localStorage. Explicit Light/Dark choices persist;
+System follows OS changes. Without JavaScript, CSS follows the OS and the full
+static plugin catalogue remains readable. Hub entries and descriptions continue
+to come from the daily generator; no catalogue data is maintained by hand.
+
+The same GitHub Pages build image also works with rootless Podman (no token is
+needed with this site's explicit URL configuration):
+
+```sh
+podman run --rm --userns=keep-id -v "$PWD":/src:Z \
+  -e PAGES_REPO_NWO=CometWorks/cometworks.github.io -e HOME=/tmp \
+  --entrypoint bash ghcr.io/actions/jekyll-build-pages:v1.0.13 \
+  -c 'cd "$BUNDLE_APP_CONFIG" && bin/github-pages build --source /src --destination /src/_site'
+python3 -m http.server 4123 --directory _site
+```
+
+For the focused browser integration check, use an externally installed Playwright
+package and Chromium; these are development tools, not site dependencies. Run
+from the repo after generating the real hub data and building/serving `_site`:
+
+```sh
+# Omit these variables if Playwright and its browser are installed normally.
+PLAYWRIGHT_MODULE=/path/to/node_modules/playwright CHROME_PATH=/usr/bin/google-chrome \
+  node _tools/check_site.cjs
+# Optional: SITE_URL=http://localhost:PORT SCREENSHOTS=/tmp/site-screenshots
+```
+
+The check covers themes before CSS, persistence, OS changes, keyboard controls,
+unavailable/corrupt storage, all six pages in both themes at 320/390/768/1440px,
+real generated entry links and counts, search, compatibility, compatible-first
+ordering, hiding/resetting, descriptions, and the no-JavaScript fallback.

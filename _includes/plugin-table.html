@@ -1,14 +1,16 @@
 {% assign flavors = include.hub.flavors.size | minus: 1 %}
-<h3>{{ include.title }} <small class="plugin-count">{{ include.entries.size }}</small></h3>
+<h2 class="table-heading">{{ include.title }} <small class="plugin-count" role="status" aria-live="polite" aria-atomic="true">{{ include.entries.size }}</small></h2>
 <table class="plugin-table">
-<thead><tr><th>Name</th><th>Author</th>{% if flavors > 0 %}<th>Flavors</th>{% endif %}<th>Platforms</th><th>Links</th></tr></thead>
+<caption class="sr-only">{{ include.hub.title }} {{ include.title | downcase }}</caption>
+<thead><tr><th scope="col">Name</th><th scope="col">Author</th>{% if flavors > 0 %}<th scope="col">Flavors</th>{% endif %}<th scope="col">Platforms</th><th scope="col">Links</th></tr></thead>
 <tbody>
 {% for e in include.entries %}<tr data-envs="{{ e.environments }}"{% if e.unavailable %} class="unavailable" data-reason="{{ e.unavailable | escape }}"{% endif %}>
 <td data-label="Name"><strong>{{ e.name | escape }}</strong>{% if e.tooltip != "" %}<div class="plugin-tooltip">{{ e.tooltip | escape }}</div>{% endif %}{% if e.description != "" %}<details><summary>Description</summary><div class="plugin-description">{{ e.description | escape }}</div></details>{% endif %}<div class="plugin-reason">{{ e.unavailable | escape }}</div></td>
 <td data-label="Author">{{ e.author | escape }}</td>
 {% if flavors > 0 %}<td data-label="Flavors">{{ e.flavors | join: ", " }}</td>{% endif %}
 <td data-label="Platforms">{{ e.platforms | join: ", " }}</td>
-<td data-label="Links"><a href="{{ e.source | escape }}">{% if e.kind == "mod" %}Workshop{% else %}Source{% endif %}</a> · <a href="{{ e.hub_entry | escape }}">Hub entry</a></td>
+<td data-label="Links"><div class="entry-links"><a href="{{ e.source | escape }}">{% if e.kind == "mod" %}Workshop{% else %}Source{% endif %} <span aria-hidden="true">↗</span></a><a href="{{ e.hub_entry | escape }}">Hub entry <span aria-hidden="true">↗</span></a></div></td>
 </tr>
 {% endfor %}</tbody>
 </table>
+<p class="plugin-empty" hidden>No matching {{ include.title | downcase }}. Try another search or reset the filters.</p>

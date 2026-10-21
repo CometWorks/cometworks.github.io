@@ -1,11 +1,15 @@
 ---
 layout: default
-title: Plugins
+title: Plugin catalogue
 permalink: /plugins/
 ---
-<h2>Plugins</h2>
-<p>Plugins and mods registered in the hubs that the loaders install them from. Pick a list:</p>
-<ul>
-{% for h in site.data.plugins.hubs %}<li><a href="{{ '/plugins/' | append: h.key | append: '/' | relative_url }}">{{ h.title }}</a>: {{ h.plugins.size }} plugin{% if h.plugins.size != 1 %}s{% endif %}{% if h.mods.size > 0 %}, {{ h.mods.size }} mod{% if h.mods.size != 1 %}s{% endif %}{% endif %} for {{ h.loader }}</li>
-{% endfor %}</ul>
-<p>Updated daily, last on {{ site.data.plugins.generated }}.</p>
+<header class="page-heading"><h1>Plugin catalogue</h1><p>Plugins and mods from all four hubs. Choose a hub to filter by platform and loader flavor.</p></header>
+<section class="section hub-section" aria-labelledby="hubs-title">
+  <div class="section-heading"><h2 id="hubs-title">Plugin hubs</h2><span class="data-stamp">Updated daily</span></div>
+  <div class="hub-grid">
+  {% for h in site.data.plugins.hubs %}
+    <article class="hub-card"><span class="category">{% if h.key == 'se1' or h.key == 'se2' %}CLIENT · {{ h.loader }}{% elsif h.key == 'magnetar' %}DEDICATED SERVER{% else %}CONTROL PLANE{% endif %}</span><h3><a href="{{ '/plugins/' | append: h.key | append: '/' | relative_url }}">{{ h.title }} <span aria-hidden="true">↗</span></a></h3><p>{% case h.key %}{% when 'se1' %}Client plugins and workshop mods for Space Engineers 1, loaded with Pulsar.{% when 'se2' %}Client plugins for Space Engineers 2, loaded with Pulsar.{% when 'magnetar' %}Plugins for Space Engineers dedicated servers running Magnetar.{% when 'quasar' %}Plugins that extend the Quasar supervisor control plane.{% endcase %}</p><div class="hub-meta"><span>{{ h.plugins.size }} plugin{% if h.plugins.size != 1 %}s{% endif %}{% if h.mods.size > 0 %} · {{ h.mods.size }} mod{% if h.mods.size != 1 %}s{% endif %}{% endif %}</span><span>{{ h.platforms | join: ' / ' }}</span></div><a class="card-link" href="{{ '/plugins/' | append: h.key | append: '/' | relative_url }}">Browse {{ h.title }} <span aria-hidden="true">→</span></a></article>
+  {% endfor %}
+  </div>
+  <p class="data-stamp catalogue-stamp">Last refreshed {{ site.data.plugins.generated }}. Entries are read from the hubs used by each loader.</p>
+</section>
