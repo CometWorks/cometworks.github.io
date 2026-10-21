@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: guide
 title: Space Engineers 2 plugin developer guide
 permalink: /plugin-dev/se2/
 ---

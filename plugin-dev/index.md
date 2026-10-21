@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: guide
 title: Plugin developer guide
 permalink: /plugin-dev/
 ---

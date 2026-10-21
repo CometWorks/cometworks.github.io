@@ -50,7 +50,7 @@ const shots = process.env.SCREENSHOTS;
     assert.equal(await theme(), 'light', 'Theme radios work with the keyboard');
     const focus = await page.locator('input[value=light] + span').evaluate(el => getComputedStyle(el).outlineStyle);
     assert.equal(focus, 'solid', 'Keyboard focus is visible');
-    const paths = ['/', '/plugins/', ...data.hubs.map(h => `/plugins/${h.key}/`)];
+    const paths = ['/', '/plugins/', ...data.hubs.map(h => `/plugins/${h.key}/`), '/plugin-dev/', '/plugin-dev/se1/', '/plugin-dev/se2/'];
     const viewports = [
       [320, 568], [360, 800], [390, 844], [768, 1024], [844, 390],
       [1024, 768], [1440, 900], [1920, 1080], [2560, 1440],
@@ -191,9 +191,9 @@ const shots = process.env.SCREENSHOTS;
         await choose(mode);
         for (const [label, width, height] of [['desktop',1440,900],['mobile',390,844],['landscape',844,390],['qhd',2560,1440],['ultrawide',3440,1440],['4k',3840,2160]]) {
           await page.setViewportSize({width,height});
-          for (const [name, pathname] of [['home','/'],['catalogue','/plugins/'],['se1','/plugins/se1/']]) {
+          for (const [name, pathname] of [['home','/'],['catalogue','/plugins/'],['se1','/plugins/se1/'],['guide','/plugin-dev/se1/']]) {
             await page.goto(base+pathname);
-            await page.screenshot({path:path.join(shots,`${name}-${label}-${mode.toLowerCase()}.png`),fullPage:name!=='se1'});
+            await page.screenshot({path:path.join(shots,`${name}-${label}-${mode.toLowerCase()}.png`),fullPage:name==='home'||name==='catalogue'});
           }
         }
       }
