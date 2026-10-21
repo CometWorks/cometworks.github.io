@@ -1,0 +1,6 @@
+cometworks-mark.png is the exact simplified CometWorks mark used by server-list
+for its header and favicon, copied without alteration from:
+server-list-navbar/Server/wwwroot/assets/cometworks-mark.png
+
+Original source: https://github.com/CometWorks/server-list
+The CometWorks mark and artwork remain the property of their owners.
