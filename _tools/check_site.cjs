@@ -51,8 +51,13 @@ const shots = process.env.SCREENSHOTS;
     const focus = await page.locator('input[value=light] + span').evaluate(el => getComputedStyle(el).outlineStyle);
     assert.equal(focus, 'solid', 'Keyboard focus is visible');
     const paths = ['/', '/plugins/', ...data.hubs.map(h => `/plugins/${h.key}/`)];
-    for (const width of [320, 390, 768, 1440]) {
-      await page.setViewportSize({ width, height: 1000 });
+    const viewports = [
+      [320, 568], [360, 800], [390, 844], [768, 1024], [844, 390],
+      [1024, 768], [1440, 900], [1920, 1080], [2560, 1440],
+      [3440, 1440], [3840, 2160], [2560, 720],
+    ];
+    for (const [width, height] of viewports) {
+      await page.setViewportSize({ width, height });
       for (const mode of ['Light', 'Dark']) {
         await choose(mode);
         for (const pathname of paths) {
@@ -60,6 +65,19 @@ const shots = process.env.SCREENSHOTS;
           assert.equal(await page.locator('h1').count(), 1, `${pathname}: one primary heading`);
           assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `${pathname}: no page overflow at ${width}px / ${mode}`);
           assert.equal(await page.locator('.brand img').evaluate(img => img.complete && img.naturalWidth > 0), true, 'Brand asset loads');
+          const layout = await page.evaluate(() => ({
+            font: parseFloat(getComputedStyle(document.documentElement).fontSize),
+            width: document.querySelector('main').getBoundingClientRect().width,
+            controls: [...document.querySelectorAll('.theme-switch span, .plugin-filters input[type=search], .plugin-filters select, .reset-filters')].map(el => ({
+              height: el.getBoundingClientRect().height, font: parseFloat(getComputedStyle(el).fontSize), field: el.matches('input,select'),
+            })),
+          }));
+          assert.ok(layout.font >= 16 && layout.font <= 24, 'Typography stays readable and capped');
+          if (width >= 1920 && height >= 1080) assert.ok(layout.font > 16, 'Large displays scale typography');
+          if (width >= 1920 && height <= 720) assert.equal(layout.font, 16, 'Shallow widescreen windows retain compact typography');
+          assert.ok(layout.width >= width * .85, 'Content uses the available viewport width');
+          assert.ok(layout.controls.every(c => c.height >= 44), 'Theme and filter controls have touch-friendly heights');
+          assert.ok(layout.controls.filter(c => c.field).every(c => c.font >= 16), 'Form text avoids small-font mobile auto-zoom');
         }
       }
     }
@@ -117,6 +135,31 @@ const shots = process.env.SCREENSHOTS;
         await details.locator('summary').click();
       }
     }
+    // Exercise the real controls after portrait/landscape reflow, including open content.
+    const se1Sections = 1 + Number(data.hubs.find(h => h.key === 'se1').mods.length > 0);
+    for (const [width, height] of [[320, 568], [844, 390]]) {
+      await page.setViewportSize({width, height});
+      await page.goto(`${base}/plugins/se1/`);
+      await page.getByRole('combobox', {name:'Platform', exact:true}).selectOption('Linux');
+      await page.getByLabel('Hide unavailable', {exact:true}).check();
+      assert.equal(await page.locator('tr.unavailable:visible').count(), 0);
+      await page.getByRole('searchbox').fill('__no_such_plugin__');
+      assert.equal(await page.locator('.plugin-empty:visible').count(), se1Sections);
+      await reset();
+      await page.locator('details summary').first().click();
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, 'Expanded descriptions fit mobile portrait and landscape');
+    }
+    // Text-only enlargement must reflow without hiding or clipping content.
+    for (const width of [320, 1280]) {
+      await page.setViewportSize({width, height:900});
+      for (const pathname of paths) {
+        await page.goto(base + pathname);
+        await page.addStyleTag({content:':root{font-size:200% !important}'});
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `${pathname}: 200% text reflows at ${width}px`);
+        assert.equal(await page.locator('article,.quick-hubs a,.theme-switch,.plugin-filters').evaluateAll(els => els.every(el => el.scrollWidth <= el.clientWidth + 1)), true, 'Enlarged text stays inside cards and controls');
+      }
+    }
+    await page.goto(base);
     for (const saved of ['garbage', '{bad-json', null]) {
       await page.evaluate(saved => { if (saved === null) localStorage.removeItem('cometworks-theme'); else localStorage.setItem('cometworks-theme', saved); }, saved);
       await page.emulateMedia({colorScheme:'dark'});
@@ -146,7 +189,7 @@ const shots = process.env.SCREENSHOTS;
       fs.mkdirSync(shots,{recursive:true});
       for (const mode of ['Light','Dark']) {
         await choose(mode);
-        for (const [label, width, height] of [['desktop',1440,1100],['mobile',390,844]]) {
+        for (const [label, width, height] of [['desktop',1440,900],['mobile',390,844],['landscape',844,390],['qhd',2560,1440],['ultrawide',3440,1440],['4k',3840,2160]]) {
           await page.setViewportSize({width,height});
           for (const [name, pathname] of [['home','/'],['catalogue','/plugins/'],['se1','/plugins/se1/']]) {
             await page.goto(base+pathname);
@@ -156,6 +199,6 @@ const shots = process.env.SCREENSHOTS;
       }
     }
     assert.deepEqual(errors, [], 'No browser errors or failed site resources');
-    console.log(`PASS: theme pre-paint/OS/persistence/keyboard/storage, 48 responsive page/theme checks, ${data.hubs.length} real hub catalogues, search/setup/hide/reset/order/details/links, and no-JS fallback.`);
+    console.log(`PASS: theme pre-paint/OS/persistence/keyboard/storage, ${viewports.length * paths.length * 2} responsive page/theme checks, mobile controls/expanded content, 200% text reflow, ${data.hubs.length} real hub catalogues, search/setup/hide/reset/order/details/links, and no-JS fallback.`);
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

@@ -58,6 +58,16 @@ PLAYWRIGHT_MODULE=/path/to/node_modules/playwright CHROME_PATH=/usr/bin/google-c
 ```
 
 The check covers themes before CSS, persistence, OS changes, keyboard controls,
-unavailable/corrupt storage, all six pages in both themes at 320/390/768/1440px,
+unavailable/corrupt storage, all six pages in both themes from 320px phones to
+3840px desktops (including tablet, landscape and ultrawide aspect ratios),
+200% text enlargement, mobile controls and expanded descriptions,
 real generated entry links and counts, search, compatibility, compatible-first
 ordering, hiding/resetting, descriptions, and the no-JavaScript fallback.
+
+Responsive sizing uses the same width-and-height-aware scale as server-list:
+normal text size on phones and shallow windows, rising to 150% on large displays.
+The shared layout uses fluid gutters rather than a fixed 1200px content cap;
+paragraphs retain readable line lengths. The hub overview shows four columns on
+wide screens, two on smaller desktops/tablets and one on phones. Theme controls
+and catalogue filters scale with text and keep at least 44px touch heights;
+search/select text stays at least 16px to avoid small-font auto-zoom on iOS.
