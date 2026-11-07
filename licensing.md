@@ -25,5 +25,3 @@ Code contributed before a repository switched stays available under the MIT Lice
 - [quasar-assistant](https://github.com/CometWorks/quasar-assistant)
 - [skills2](https://github.com/CometWorks/skills2)
 - [worlds](https://github.com/CometWorks/worlds)
-
-Plugin templates and the plugin hubs stay under the MIT License, so plugin authors can pick their own license.
