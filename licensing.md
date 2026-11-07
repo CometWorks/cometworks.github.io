@@ -10,10 +10,13 @@ You can use, study, change and share this software. If you run a modified versio
 
 Code contributed before a repository switched stays available under the MIT License it was published under. Each repository keeps that notice in `LICENSE-MIT`.
 
+Please contact us for alternate licensing.
+
 ## AGPL-3.0 repositories
 
 - [cluster](https://github.com/CometWorks/cluster)
 - [clangy](https://github.com/CometWorks/clangy)
+- [cometworks.github.io](https://github.com/CometWorks/cometworks.github.io) (this website)
 - [concealment](https://github.com/CometWorks/concealment)
 - [dotnet-compat](https://github.com/CometWorks/dotnet-compat)
 - [linux-compat](https://github.com/CometWorks/linux-compat)
