@@ -8,7 +8,7 @@ On 2026-11-07 the CometWorks team (Viktor, Owen and Space) agreed to license our
 
 You can use, study, change and share this software. If you run a modified version as a network service, such as a game server or a web backend, you have to offer its source code to the users of that service.
 
-Code contributed before a repository switched stays available under the MIT License it was published under. Each repository keeps that notice in `LICENSE-MIT`.
+Files that hold MIT-licensed code from contributors outside the team keep that license in a header comment.
 
 Please contact us for alternate licensing.
 

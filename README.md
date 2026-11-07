@@ -74,6 +74,6 @@ search/select text stays at least 16px to avoid small-font auto-zoom on iOS.
 
 ## License
 
-AGPL-3.0, see [LICENSE](LICENSE). Code from before 2026-11-07 was MIT licensed, see [LICENSE-MIT](LICENSE-MIT). The fonts in `assets/` keep their own licenses.
+AGPL-3.0, see [LICENSE](LICENSE). The fonts in `assets/` keep their own licenses.
 
 Please contact us for alternate licensing.
