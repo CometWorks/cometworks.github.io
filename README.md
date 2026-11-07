@@ -71,3 +71,9 @@ paragraphs retain readable line lengths. The hub overview shows four columns on
 wide screens, two on smaller desktops/tablets and one on phones. Theme controls
 and catalogue filters scale with text and keep at least 44px touch heights;
 search/select text stays at least 16px to avoid small-font auto-zoom on iOS.
+
+## License
+
+AGPL-3.0, see [LICENSE](LICENSE). The fonts in `assets/` keep their own licenses.
+
+Please contact us for alternate licensing.
