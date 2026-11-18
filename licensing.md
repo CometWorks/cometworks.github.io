@@ -27,4 +27,3 @@ Please contact us for alternate licensing.
 - [quasar](https://github.com/CometWorks/quasar)
 - [quasar-assistant](https://github.com/CometWorks/quasar-assistant)
 - [skills2](https://github.com/CometWorks/skills2)
-- [worlds](https://github.com/CometWorks/worlds)
